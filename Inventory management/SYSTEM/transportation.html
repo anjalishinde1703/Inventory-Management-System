@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transportation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 1em 0;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #333;
+        }
+        nav a {
+            color: white;
+            padding: 14px 20px;
+            text-decoration: none;
+            text-align: center;
+        }
+        nav a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+        .container {
+            padding: 20px;
+        }
+        .form-container {
+            margin-bottom: 20px;
+        }
+        .form-container input, .form-container select, .form-container button {
+            margin: 5px 0;
+            padding: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Transportation</h1>
+    </header>
+    <nav>
+        <a href="home.html">Home</a>
+        <a href="product.html">Products</a>
+        <a href="customer.html">Customers</a>
+        <a href="transportation.html">Transportation</a>
+    </nav>
+    <div class="container">
+        <div class="form-container">
+            <h3>Add Transportation</h3>
+            <label for="transportationType">Transportation Type:</label>
+            <select id="transportationType">
+                <option value="">Select...</option>
+                <option value="road">By Road</option>
+                <option value="railway">By Railway</option>
+            </select>
+            <div id="roadOptions" class="hidden">
+                <label for="roadLocation">Location (By Road):</label>
+                <select id="roadLocation">
+                    <option value="Pune">Pune</option>
+                    <option value="Ahilyanagar">Ahilyanagar</option>
+                    <option value="Nashik">Nashik </option>
+                    <option value="Satara">Satara </option>
+                </select>
+            </div>
+            <div id="railwayOptions" class="hidden">
+                <label for="railwayLocation">Location (By Railway):</label>
+                <select id="railwayLocation">
+                    <option value="Mumbai">Mumbai</option>
+                    <option value="Ahmedabad">Ahmedabad</option>
+                    <option value="Delhi">Delhi</option>
+                    <option value="UP">UP</option>
+                </select>
+            </div>
+            <input type="number" id="transportationCost" placeholder="Cost" readonly>
+            <button onclick="addTransportation()">Add Transportation</button>
+            <button onclick="placeOrder()">Place Order</button>
+        </div>
+        <h3>Transportation List</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Transportation Type</th>
+                    <th>Location</th>
+                    <th>Cost</th>
+                </tr>
+            </thead>
+            <tbody id="transportationTableBody">
+                <!-- Transportation data will be inserted here -->
+            </tbody>
+        </table>
+    </div>
+    <script>
+        const transportType = document.getElementById('transportationType');
+        const roadOptions = document.getElementById('roadOptions');
+        const railwayOptions = document.getElementById('railwayOptions');
+        const transportationCost = document.getElementById('transportationCost');
+
+        const roadCosts = {
+            'Pune': 400,
+            'Ahilyanagar': 200,
+            'Nashik': 400,
+            'Satara': 500
+        };
+
+        const railwayCosts = {
+            'Mumbai': 1000,
+            'Ahmedabad': 1500,
+            'Delhi': 2000,
+            'UP': 2500
+        };
+
+        transportType.addEventListener('change', function() {
+            roadOptions.classList.add('hidden');
+            railwayOptions.classList.add('hidden');
+
+            if (this.value === 'road') {
+                roadOptions.classList.remove('hidden');
+            } else if (this.value === 'railway') {
+                railwayOptions.classList.remove('hidden');
+            }
+        });
+
+        document.getElementById('roadLocation').addEventListener('change', function() {
+            transportationCost.value = roadCosts[this.value];
+        });
+
+        document.getElementById('railwayLocation').addEventListener('change', function() {
+            transportationCost.value = railwayCosts[this.value];
+        });
+
+        function addTransportation() {
+            const transportationType = document.getElementById("transportationType").value;
+            let transportationLocation = "";
+            let cost = 0;
+            if (transportationType === "road") {
+                transportationLocation = document.getElementById("roadLocation").value;
+                cost = roadCosts[transportationLocation];
+            } else if (transportationType === "railway") {
+                transportationLocation = document.getElementById("railwayLocation").value;
+                cost = railwayCosts[transportationLocation];
+            }
+
+            if (transportationType === "" || transportationLocation === "" || cost === 0) {
+                alert("All fields are required.");
+                return;
+            }
+
+            const table = document.getElementById("transportationTableBody");
+            const row = table.insertRow();
+            const cell1 = row.insertCell(0);
+            const cell2 = row.insertCell(1);
+            const cell3 = row.insertCell(2);
+
+            cell1.innerHTML = transportationType === "road" ? "By Road" : "By Railway";
+            cell2.innerHTML = transportationLocation;
+            cell3.innerHTML = cost;
+        }
+
+        function placeOrder() {
+            const transportationType = document.getElementById("transportationType").value;
+            let transportationLocation = "";
+            let cost = 0;
+            if (transportationType === "road") {
+                transportationLocation = document.getElementById("roadLocation").value;
+                cost = roadCosts[transportationLocation];
+            } else if (transportationType === "railway") {
+                transportationLocation = document.getElementById("railwayLocation").value;
+                cost = railwayCosts[transportationLocation];
+            }
+
+            if (transportationType === "" || transportationLocation === "" || cost === 0) {
+                alert("All fields are required.");
+                return;
+            }
+
+            const confirmation = confirm("Are you sure you want to place this order?\n");
+
+            if (confirmation) {
+                // Save order details to local storage
+                localStorage.setItem("transportationType", transportationType);
+                localStorage.setItem("transportationLocation", transportationLocation);
+                localStorage.setItem("transportationCost", cost);
+
+                window.location.href = "Thank you.html";
+            }
+        }
+    </script>
+</body>
+</html>

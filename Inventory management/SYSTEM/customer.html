@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customers</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 1em 0;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #333;
+        }
+        nav a {
+            color: white;
+            padding: 14px 20px;
+            text-decoration: none;
+            text-align: center;
+        }
+        nav a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+        .container {
+            padding: 20px;
+        }
+        .form-container {
+            margin-bottom: 20px;
+        }
+        .form-container input, .form-container button {
+            margin: 5px 0;
+            padding: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Customers</h1>
+    </header>
+    <nav>
+        <a href="home.html">Home</a>
+        <a href="product.html">Products</a>
+        <a href="customer.html">Customers</a>
+        <a href="transportation.html">Transportation</a>
+    </nav>
+    <div class="container">
+        <div class="form-container">
+            <h3>Add Customer</h3>
+            <input type="text" id="customerName" placeholder="Customer Name">
+            <input type="email" id="customerEmail" placeholder="Email">
+            <button onclick="addCustomer()">Add Customer</button>
+        </div>
+        <h3>Customer List</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Customer Name</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody id="customerTableBody">
+                <!-- Customer data will be inserted here -->
+            </tbody>
+        </table>
+    </div>
+    <script>
+        function addCustomer() {
+            var customerName = document.getElementById("customerName").value;
+            var customerEmail = document.getElementById("customerEmail").value;
+
+            // Check if all fields are filled
+            if (!customerName || !customerEmail) {
+                alert("All fields are required before adding a customer.");
+                return;
+            }
+
+            // Save customer details to localStorage
+            localStorage.setItem("customerName", customerName);
+            localStorage.setItem("customerEmail", customerEmail);
+
+            var table = document.getElementById("customerTableBody");
+            var row = table.insertRow();
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+
+            cell1.innerHTML = customerName;
+            cell2.innerHTML = customerEmail;
+        }
+    </script>
+</body>
+</html>

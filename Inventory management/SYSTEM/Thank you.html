@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You</title>
+        <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        .thank-you-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+        }
+        .thank-you-container h1 {
+            color: #4CAF50;
+        }
+        .thank-you-container p {
+            font-size: 1.1em;
+            margin: 10px 0;
+        }
+        .thank-you-container a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .thank-you-container a:hover {
+            background-color: #45a049;
+        }
+        .details-section {
+            margin-top: 20px;
+            text-align: left;
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+        }
+        .details-section h3 {
+            color: #4CAF50;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="thank-you-container">
+        <h1>Thank You!</h1>
+        <p>Your order has been placed successfully.</p>
+
+        <!-- Customer Details -->
+        <div class="details-section">
+            <h3>Customer Details</h3>
+            <p><strong>Name:</strong> <span id="customerName"></span></p>
+            <p><strong>Email:</strong> <span id="customerEmail"></span></p>
+        </div>
+
+        <!-- Product Details -->
+        <div class="details-section">
+            <h3>Product Details</h3>
+            <p><strong>Product Name:</strong> <span id="productName"></span></p>
+            <p><strong>Category:</strong> <span id="productCategory"></span></p>
+            <p><strong>Price:</strong> $<span id="productPrice"></span></p>
+            <p><strong>Quantity:</strong> <span id="productQuantity"></span></p>
+        </div>
+
+        <!-- Transportation Details -->
+        <div class="details-section">
+            <h3>Transportation Details</h3>
+            <p><strong>Transportation Type:</strong> <span id="orderType"></span></p>
+            <p><strong>Location:</strong> <span id="orderLocation"></span></p>
+            <p><strong>Cost:</strong> $<span id="orderCost"></span></p>
+        </div>
+
+
+        <a href="transportation.html">Back to Transportation</a>
+    </div>
+
+    <script>
+        // Retrieve and display customer details
+        const customerName = localStorage.getItem("customerName");
+        const customerEmail = localStorage.getItem("customerEmail");
+        document.getElementById("customerName").textContent = customerName || "N/A";
+        document.getElementById("customerEmail").textContent = customerEmail || "N/A";
+
+        // Retrieve and display product details
+        const productCategory = localStorage.getItem("productCategory"); // Get the category to construct the key
+        if (productCategory) {
+            const productKey = "product" + productCategory; // Construct the key used in localStorage
+            const productData = localStorage.getItem(productKey); // Retrieve the product data
+
+            if (productData) {
+                const product = JSON.parse(productData); // Parse the JSON string
+                document.getElementById("productName").textContent = product.category.charAt(0).toUpperCase() + product.category.slice(1) || "N/A";
+                document.getElementById("productCategory").textContent = product.category || "N/A";
+                document.getElementById("productPrice").textContent = product.price || "N/A";
+                document.getElementById("productQuantity").textContent = product.quantity || "N/A";
+            } else {
+                document.getElementById("productName").textContent = "N/A";
+                document.getElementById("productCategory").textContent = "N/A";
+                document.getElementById("productPrice").textContent = "N/A";
+                document.getElementById("productQuantity").textContent = "N/A";
+            }
+        } else {
+            document.getElementById("productName").textContent = "N/A";
+            document.getElementById("productCategory").textContent = "N/A";
+            document.getElementById("productPrice").textContent = "N/A";
+            document.getElementById("productQuantity").textContent = "N/A";
+        }
+
+        // Retrieve and display transportation details
+        const orderType = localStorage.getItem("transportationType");
+        const orderLocation = localStorage.getItem("transportationLocation");
+        const orderCost = localStorage.getItem("transportationCost");
+        document.getElementById("orderType").textContent = orderType || "N/A";
+        document.getElementById("orderLocation").textContent = orderLocation || "N/A";
+        document.getElementById("orderCost").textContent = orderCost || "N/A";
+
+       
+        // Clear local storage after displaying the details (optional)
+        localStorage.removeItem("customerName");
+        localStorage.removeItem("customerEmail");
+        localStorage.removeItem("productCategory");
+        localStorage.removeItem("productPrice");
+        localStorage.removeItem("productQuantity");
+        localStorage.removeItem("transportationType");
+        localStorage.removeItem("transportationLocation");
+        localStorage.removeItem("transportationCost");
+    </script>
+</body>
+</html>
